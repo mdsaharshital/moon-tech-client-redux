@@ -6,6 +6,7 @@ import {
   addToCart,
   addToWishlist,
   removeFromCart,
+  removeFromWishlist,
 } from "../redux/actionCreator/productAction";
 
 const ProductCard = ({ product }) => {
@@ -43,7 +44,7 @@ const ProductCard = ({ product }) => {
             Remove
           </button>
         )}
-        {!pathname.includes("cart") && (
+        {!pathname.includes("cart") && !pathname.includes("wishlist") && (
           <button
             onClick={() => dispatch(addToCart(product))}
             className="bg-indigo-500 rounded-full py-1 px-2 flex-1 text-white text-bold"
@@ -51,13 +52,22 @@ const ProductCard = ({ product }) => {
             Add to cart
           </button>
         )}
-        {!pathname.includes("cart") && (
+        {!pathname.includes("cart") && !pathname.includes("wishlist") && (
           <button
             onClick={() => dispatch(addToWishlist(product))}
             title="Add to wishlist"
             className="bg-indigo-500  py-1 px-2 rounded-full"
           >
             <BiListPlus className="text-white" />
+          </button>
+        )}
+        {pathname.includes("wishlist") && (
+          <button
+            onClick={() => dispatch(removeFromWishlist(product))}
+            title="Add to wishlist"
+            className="bg-red-500 rounded-full py-1 px-2 flex-1 text-white text-bold"
+          >
+            Remove
           </button>
         )}
       </div>

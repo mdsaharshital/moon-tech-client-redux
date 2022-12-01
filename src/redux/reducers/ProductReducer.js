@@ -2,6 +2,7 @@ import {
   ADD_TO_CART,
   ADD_TO_WISHLIST,
   REMOVE_FROM_CART,
+  REMOVE_FROM_WISHLIST,
 } from "../actionType/actionType";
 
 const initialState = {
@@ -66,6 +67,13 @@ const productReducer = (state = initialState, action) => {
       return {
         ...state,
         wishlist: [...state.wishlist, action.payload],
+      };
+    case REMOVE_FROM_WISHLIST:
+      return {
+        ...state,
+        wishlist: state.wishlist.filter(
+          (product) => product._id !== action.payload._id
+        ),
       };
     default:
       return state;
