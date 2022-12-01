@@ -6,7 +6,7 @@ const Wishlist = () => {
   const wishlist = useSelector((state) => state.wishlist);
   return (
     <div className="">
-      <h1>This is wishlist</h1>
+      <h1 className="text-3xl text-center font-bold">Your Wishlist</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 max-w-7xl gap-14 mx-auto my-10">
         {wishlist
           .sort((a, b) => a._id - b._id)
