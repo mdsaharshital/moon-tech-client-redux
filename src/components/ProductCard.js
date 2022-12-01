@@ -6,13 +6,17 @@ import {
   addToCart,
   removeFromCart,
 } from "../redux/actionCreator/productAction";
-import { ADD_TO_CART } from "../redux/actionType/actionType";
 
 const ProductCard = ({ product }) => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   return (
-    <div className="shadow-lg rounded-3xl border  p-3 flex flex-col text-indigo-900">
+    <div className="shadow-lg rounded-sm border relative p-3 flex flex-col text-indigo-900">
+      {pathname.includes("cart") && (
+        <p className="grid place-content-center text-white absolute bg-indigo-500 rounded-full h-6 w-6 top-[-10px] right-[-10px]">
+          {product.quantity}
+        </p>
+      )}
       <div className="h-52 w-52 mx-auto">
         <img src={product.image} alt={product.model} />
       </div>
