@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import {
   addToCart,
+  addToWishlist,
   removeFromCart,
 } from "../redux/actionCreator/productAction";
 
@@ -52,6 +53,7 @@ const ProductCard = ({ product }) => {
         )}
         {!pathname.includes("cart") && (
           <button
+            onClick={() => dispatch(addToWishlist(product))}
             title="Add to wishlist"
             className="bg-indigo-500  py-1 px-2 rounded-full"
           >
