@@ -8,13 +8,34 @@ const Home = () => {
   const dispatch = useDispatch();
   const filter = useSelector((state) => state.filter.filters);
   const { brands, stock } = filter;
-  console.log(brands);
+  console.log(stock);
   useEffect(() => {
     fetch("http://localhost:5000/products")
       .then((res) => res.json())
       .then((data) => setProducts(data.data));
   }, []);
-
+  let content;
+  if (products.length) {
+    content = products.map((product) => (
+      <ProductCard key={product.model} product={product} />
+    ));
+  }
+  if (products.length && (stock || brands)) {
+    content = products
+      .filter((product) => {
+        if (stock) {
+          return product.status === true;
+        }
+        return product;
+      })
+      .filter((product) => {
+        if (brands.length) {
+          return brands.includes(product.brand);
+        }
+        return product;
+      })
+      .map((product) => <ProductCard key={product.model} product={product} />);
+  }
   const activeClass = "text-white  bg-indigo-500 border-white";
 
   return (
@@ -22,27 +43,31 @@ const Home = () => {
       <div className="mb-10 flex justify-end gap-5">
         <button
           onClick={() => dispatch(stockToggle())}
-          className={`border px-3 py-2 rounded-full font-semibold ${activeClass} `}
+          className={`border px-3 py-2 rounded-full font-semibold ${
+            stock ? activeClass : null
+          } `}
         >
           In Stock
         </button>
         <button
           onClick={() => dispatch(brandsToggle("amd"))}
-          className={`border px-3 py-2 rounded-full font-semibold`}
+          className={`border px-3 py-2 rounded-full font-semibold ${
+            brands.includes("amd") ? activeClass : null
+          }`}
         >
           AMD
         </button>
         <button
           onClick={() => dispatch(brandsToggle("intel"))}
-          className={`border px-3 py-2 rounded-full font-semibold`}
+          className={`border px-3 py-2 rounded-full font-semibold  ${
+            brands.includes("intel") ? activeClass : null
+          }`}
         >
           Intel
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">
-        {products.map((product) => (
-          <ProductCard key={product.model} product={product} />
-        ))}
+        {content}
       </div>
     </div>
   );
