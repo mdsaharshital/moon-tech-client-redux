@@ -2,72 +2,61 @@ import React from "react";
 import { BiListPlus } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import {
-  addToCart,
-  addToWishlist,
-  removeFromCart,
-  removeFromWishlist,
-} from "../redux/actionCreator/productAction";
+import { MdDeleteForever } from "react-icons/md";
+import { addToCart, removeFromCart } from "../redux/actions/productAction";
 
 const ProductCard = ({ product }) => {
-  const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
   return (
-    <div className="shadow-lg rounded-sm border relative p-3 flex flex-col text-indigo-900">
+    <div className='shadow-lg relative rounded-3xl border p-3 flex flex-col text-indigo-900'>
       {pathname.includes("cart") && (
-        <p className="grid place-content-center text-white absolute bg-indigo-500 rounded-full h-6 w-6 top-[-10px] right-[-10px]">
-          {product.quantity}
-        </p>
+        <div className='rounded-full grid place-items-center absolute top-2 right-2 bg-indigo-500 text-white h-8 w-8 font-bold '>
+          <p> {product.quantity} </p>
+        </div>
       )}
-      <div className="h-52 w-52 mx-auto">
+      <div className='h-52 w-52 mx-auto'>
         <img src={product.image} alt={product.model} />
       </div>
-      <h1 className="font-bold text-center">{product.model}</h1>
-      <p className="text-center font-semibold mb-3">Rating: {product.rating}</p>
-      <div className=" flex-1">
-        <ul className="space-y-2">
-          {product?.keyFeature.map((feature, index) => {
+      <h1 className='font-bold text-center'>{product.model}</h1>
+      <p className='text-center font-semibold mb-3'>Rating: {product.rating}</p>
+      <div className=' flex-1'>
+        <ul className='space-y-2'>
+          {product.keyFeature.map((feature) => {
             return (
-              <li className="text-sm " key={index}>
+              <li key={feature} className='text-sm '>
                 {feature}
               </li>
             );
           })}
         </ul>
       </div>
-      <div className="flex gap-2 mt-5">
-        {pathname.includes("cart") && (
-          <button
-            onClick={() => dispatch(removeFromCart(product))}
-            className="bg-red-500 rounded-full py-1 px-2 flex-1 text-white text-bold"
-          >
-            Remove
-          </button>
-        )}
-        {!pathname.includes("cart") && !pathname.includes("wishlist") && (
+      <div className='flex gap-2 mt-5'>
+        {!pathname.includes("cart") && (
           <button
             onClick={() => dispatch(addToCart(product))}
-            className="bg-indigo-500 rounded-full py-1 px-2 flex-1 text-white text-bold"
+            className='bg-indigo-500 rounded-full py-1 px-2 flex-1 text-white text-bold'
           >
             Add to cart
           </button>
         )}
-        {!pathname.includes("cart") && !pathname.includes("wishlist") && (
+
+        {!pathname.includes("cart") && (
           <button
-            onClick={() => dispatch(addToWishlist(product))}
-            title="Add to wishlist"
-            className="bg-indigo-500  py-1 px-2 rounded-full"
+            title='Add to wishlist'
+            className='bg-indigo-500  py-1 px-2 rounded-full'
           >
-            <BiListPlus className="text-white" />
+            <BiListPlus className='text-white' />
           </button>
         )}
-        {pathname.includes("wishlist") && (
+        {pathname.includes("cart") && (
           <button
-            onClick={() => dispatch(removeFromWishlist(product))}
-            title="Add to wishlist"
-            className="bg-red-500 rounded-full py-1 px-2 flex-1 text-white text-bold"
+            title='Remove'
+            onClick={() => dispatch(removeFromCart(product))}
+            className='flex justify-between px-3 bg-red-500 text-white p-1 rounded-full flex-1'
           >
-            Remove
+            <p>Remove</p>
+            <MdDeleteForever size='25' />
           </button>
         )}
       </div>

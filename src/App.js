@@ -5,11 +5,11 @@ import routes from "./routes/routes";
 
 function App() {
   return (
-    <Provider store={store}>
-      <div>
+    <div>
+      <Provider store={store}>
         <RouterProvider router={routes} />
-      </div>
-    </Provider>
+      </Provider>
+    </div>
   );
 }
 
